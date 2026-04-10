@@ -1,0 +1,198 @@
+@baseURL = http://localhost:3399
+
+
+
+
+#################auth
+
+### Register
+POST {{baseURL}}/auth/register
+Content-type: application/json
+
+{
+    "email" : "delete@gmail.com",
+    "password" : "123456",
+    "confirmPassword" : "123456"
+}
+
+
+### Login
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+    "email" : "peachpatch@gmail.com",
+    "password" : "123456"
+}
+
+
+#################account
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzc0NTk4NTQ4LCJleHAiOjE3NzcxOTA1NDh9.KhbE-quwuw39DtGa_Y7VFrTDmL3gMqvJP9XAbmrOPD4
+
+### GET Profile
+GET {{baseURL}}/account/profile
+
+### PATCH Profile peach
+PATCH  {{baseURL}}/account/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNzc0MTgyMjE2LCJleHAiOjE3NzY3NzQyMTZ9.u3ydOI-SChN0OcWVe8n24dk9FKwnoyPf2REqN6bg88M
+
+{
+    "name" : "patchlaewjaa",
+    "email" : "patchja@gmail.com",
+    "password" : "123456789",
+    "profileImg" : "https://preview.redd.it/random-question-but-does-anyone-have-versions-of-this-cat-v0-ya8qikz9kn0f1.png?width=640&crop=smart&auto=webp&s=2487b53aa5d4ac4e710f7717a6850c83562272ab"
+}
+
+### DELETE Profile
+DELETE {{baseURL}}/account/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTc3NDI0OTU0NiwiZXhwIjoxNzc2ODQxNTQ2fQ.tosdKZIvSHKaEsN1p-KimsxMpBKVhDbXNgoYpPMqhfs
+
+
+
+### GET Traveler info peachpatch
+GET {{baseURL}}/account/traveler-info
+Authorization: Bearer {{token}}
+
+### POST Traveler info peachpatch
+POST {{baseURL}}/account/traveler-info
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "firstName": "New",
+    "lastName": "PeachAccount"
+}
+
+### GET Traveler info
+PATCH {{baseURL}}/account/traveler-info
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "id": 1,
+    "firstName": "New",
+    "lastName": "PeachPatch"
+}
+
+### DELETE Traveler info
+DELETE {{baseURL}}/account/traveler-info
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "id": 3
+}
+
+
+### GET Bookings
+GET {{baseURL}}/account/bookings
+
+### GET Rewards
+GET {{baseURL}}/account/rewards
+
+### GET Reviews
+GET {{baseURL}}/account/reviews
+
+
+
+
+#################Like
+
+### GET AllLike
+GET {{baseURL}}/like/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0NDMwODA0LCJleHAiOjE3NzcwMjI4MDR9.wIhz7e7CP9l4CvdDHZ-b4EBwUTqgkNpkJQv6wkhfuLw
+
+### Like
+POST {{baseURL}}/like/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0NDMwODA0LCJleHAiOjE3NzcwMjI4MDR9.wIhz7e7CP9l4CvdDHZ-b4EBwUTqgkNpkJQv6wkhfuLw
+
+### UnLike
+DELETE  {{baseURL}}/like/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzc0NDMwODA0LCJleHAiOjE3NzcwMjI4MDR9.wIhz7e7CP9l4CvdDHZ-b4EBwUTqgkNpkJQv6wkhfuLw
+
+
+#################hotels
+
+### GET AllHotels
+GET {{baseURL}}/hotels
+
+### COUNT AllHotels
+GET {{baseURL}}/hotels/counts
+
+### GET AllHotelsByCity
+GET {{baseURL}}/hotels/bangkok
+
+### GET AllHotelsByCity
+GET {{baseURL}}/hotels/nakhon-ratchasima
+
+### GET HotelsByName
+GET {{baseURL}}/hotels/phuket/amanpuri
+
+### GET HotelsByName
+GET {{baseURL}}/hotels/nakhon-ratchasima/intercontinental-khao-yai-resort
+
+
+
+#################bookings
+
+### GET All bookings from this user
+GET {{baseURL}}/book
+Authorization: Bearer {{token}}
+
+### GET specific booking id from this user
+GET {{baseURL}}/book/1
+Authorization: Bearer {{token}}
+
+### DELETE specific booking id from this user
+DELETE {{baseURL}}/book
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 7
+}
+
+### CANCEL specific booking id from this user
+PATCH {{baseURL}}/book
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 10
+}
+
+### POST AllBooking
+POST {{baseURL}}/book
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "bookingDetails": {
+    "roomId": 1,
+    "roomAmount": 1,
+    "numGuest": 2,
+    "checkInDate": "2026-05-17",
+    "checkOutDate": "2026-05-19",
+    "totalPrice": 15000.00
+  },
+  "guestList": [
+    {
+      "firstName": "Pichayapa",
+      "lastName": "Thaisedhawatkul"
+    },
+    {
+      "firstName": "Peach",
+      "lastName": "Patchara"
+    }
+  ],
+    "paymentDetails": {
+        "paymentMethod": "CREDIT_CARD",
+        "accountName": "Pichayapa Thaisedhawatkul",
+        "amount": 15000.00,
+        "paymentDate": "2026-03-29T15:35:17Z",
+        "paymentRefNo": "REF_123456789",
+        "paymentStatus": "PAID"
+    }
+}
+

@@ -1,0 +1,42 @@
+@baseURL = http://localhost:3399
+
+### TESTJAAAAAAAAAAAAAAA
+GET {{baseURL}}/auth/login
+
+### Register
+POST {{baseURL}}/auth/register/admin
+Content-Type: application/json
+
+{
+    "email" : "admin@gmail.com",
+    "role" : "ADMIN",
+    "password" : "123456",
+    "confirmPassword" : "123456"
+}
+
+### Login
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+    "email" : "ADMINpeach@gmail.com",
+    "password" : "123456"
+}
+
+
+#################bookings
+
+@ADMINtoken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzc0NzkwNjUwLCJleHAiOjE3NzczODI2NTB9.aOIMSYiC7yziSIeqJ521Cf_rCtv4Jmc1tzYU24XQ3RU
+
+### GET All bookings
+GET {{baseURL}}/book/all
+Authorization: Bearer {{ADMINtoken}}
+
+### PATCH update booking status
+PATCH {{baseURL}}/book/2
+Content-Type: application/json
+Authorization: Bearer {{ADMINtoken}}
+
+{
+    "bookingStatus" : "CONFIRMED"
+}
