@@ -10,11 +10,35 @@ import bookRoute from './routes/book.route.js'
 
 const app = express()
 app.use(express.json())
+const allowedOrigins = [
+    process.env.CORS_ORIGIN, // This will be your main https://pich-and-go.vercel.app
+    "http://localhost:5173"  // Local development
+];
+
 app.use(cors({
-    origin: ["http://localhost:5173"],
-    methods: ["GET","POST","PUT","PATCH","DELETE"],
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin) return callback(null, true);
+
+        const isAllowed = allowedOrigins.includes(origin);
+        const isVercelPreview = origin.endsWith('.vercel.app');
+
+        if (isAllowed || isVercelPreview) {
+            callback(null, true);
+        } else {
+            // This helps you see in Railway logs which URL is being blocked
+            console.log("CORS blocked for origin:", origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true
-}))
+}));
+// app.use(cors({
+//     origin: process.env.CORS_ORIGIN ||"http://localhost:5173",
+//     methods: ["GET","POST","PUT","PATCH","DELETE"],
+//     credentials: true
+// }))
 
 app.use('/auth',authRoute)
 app.use('/account',accRoute)
