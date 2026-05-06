@@ -2,24 +2,54 @@ import 'dotenv/config';
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "../generated/prisma/client.js";
 
-// const adapter = new PrismaMariaDb({
-//     host: process.env.DATABASE_HOST,
-//     user: process.env.DATABASE_USER,
-//     password: process.env.DATABASE_PASSWORD,
-//     database: process.env.DATABASE_NAME,
-//     connectionLimit: 5
-// })
-const databaseUrl = new URL(process.env.DATABASE_URL);
+// Lazily initialise the Prisma client so that DATABASE_URL is not parsed at
+// module load time. Railway injects variable references (e.g. ${{ MySQL.DATABASE_URL }})
+// at runtime, meaning the value is empty during the initial module evaluation.
+// The client is created on first access and then cached for all subsequent calls.
 
-const adapter = new PrismaMariaDb({
-    host: databaseUrl.hostname,
-    port: parseInt(databaseUrl.port) || 3306,
-    user: decodeURIComponent(databaseUrl.username),
-    password: decodeURIComponent(databaseUrl.password),
-    database: databaseUrl.pathname.slice(1),
-    connectionLimit: 5
-})
+let _prisma = null;
 
-const prisma = new PrismaClient({adapter})
+function getPrismaClient() {
+    if (_prisma) return _prisma;
 
-export { prisma }
+    const rawUrl = process.env.DATABASE_URL;
+    if (!rawUrl) {
+        throw new Error(
+            '[prisma] DATABASE_URL is not set. ' +
+            'Make sure the environment variable is available at runtime.'
+        );
+    }
+
+    let databaseUrl;
+    try {
+        databaseUrl = new URL(rawUrl);
+    } catch (err) {
+        throw new Error(`[prisma] Failed to parse DATABASE_URL: ${err.message}`);
+    }
+
+    console.log(`[prisma] Connecting to database at ${databaseUrl.hostname}:${databaseUrl.port || 3306}`);
+
+    const adapter = new PrismaMariaDb({
+        host: databaseUrl.hostname,
+        port: parseInt(databaseUrl.port) || 3306,
+        user: decodeURIComponent(databaseUrl.username),
+        password: decodeURIComponent(databaseUrl.password),
+        database: databaseUrl.pathname.slice(1),
+        connectionLimit: 5
+    });
+
+    _prisma = new PrismaClient({ adapter });
+    return _prisma;
+}
+
+// Export a Proxy so that all existing `prisma.<model>.*` call sites continue to
+// work without any changes — property accesses are simply forwarded to the
+// lazily-created client instance.
+export const prisma = new Proxy(
+    {},
+    {
+        get(_target, prop) {
+            return getPrismaClient()[prop];
+        },
+    }
+);
