@@ -1,0 +1,1 @@
+//Create a new service that takes a bookingId or amount.

@@ -1,7 +1,9 @@
 import CreateHttpError from 'http-errors';
+import { prisma } from '../lib/prisma.js';
 import { addBooking, addBookingGuest, addPayment, cancelBookingByUser, checkRoomAvailability, deleteSpecificBooking, findDiscount, findRoomData, getAllBookingFromThisUser, getAllBookings, getSpecificBooking, updatedBookingStatus } from '../services/book.service.js';
 import { differenceInDays } from "date-fns"
 import priceCalculator from '../utils/priceCalculator.js';
+import { saveBookingRewards } from '../services/reward.service.js';
 
 //ADMIN
 export async function getAllBookingsCtrl (req,res,next) {
@@ -44,10 +46,10 @@ export async function cancelBookingByUserCtrl (req,res,next) {
     })
 } 
 
-export async function pricePreview (req,res,next) {
+export async function pricePreviewCtrl (req,res,next) {
     const { roomId, checkInDate, checkOutDate, roomAmount, promoCode } = req.body
 
-    const room = await findRoomData(roomId)
+    const room = await findRoomData(Number(roomId))
     console.log('room', room)
     
     const checkin = new Date(checkInDate)
@@ -55,7 +57,12 @@ export async function pricePreview (req,res,next) {
     let nightCount = differenceInDays(checkout, checkin)
     if (nightCount <= 0) nightCount = 1
 
-    const priceData = priceCalculator(room, nightCount, roomAmount, promoCode)
+    let discountRecord = null
+    if (promoCode) {
+        discountRecord = await findDiscount(promoCode)
+    }
+
+    const priceData = priceCalculator(room, nightCount, roomAmount, discountRecord)
 
 
     res.json({
@@ -90,15 +97,77 @@ export async function addBookingsCtrl (req,res,next) {
         return next(CreateHttpError[400]('This room has been booked'))
     }
 
+    const room = await findRoomData(roomId)
+    if (!room) {
+        return next(CreateHttpError[404]('Room not found'))
+    }
+    console.log('roomCtrl', room)
+
     let appliedDiscountId = null;
+    let discountRecord = null;
     if (promoCode) {
-        const discountRecord = await findDiscount(promoCode)
-        if (discountRecord) appliedDiscountId = discountRecord.id
+        discountRecord = await findDiscount(promoCode)
+        if (!discountRecord || !discountRecord.isActive) {
+            return next(CreateHttpError[400]('Promo code is invalid or inactive'))
+        }
+
+        const now = new Date();
+        if (discountRecord.startDate && now < discountRecord.startDate) {
+            return next(CreateHttpError[400]('Promo code is not active yet'))
+        }
+        if (discountRecord.endDate && now > discountRecord.endDate) {
+            return next(CreateHttpError[400]('Promo code has expired'))
+        }
+
+        if (discountRecord.usageLimit && discountRecord.usedCount >= discountRecord.usageLimit) {
+            return next(CreateHttpError[400]('Promo code usage limit has been reached'))
+        }
+
+
+        const alreadyUsed = await prisma.booking.findFirst({
+            where: {
+                userId: id,
+                discountId: discountRecord.id,
+                bookingStatus: { not: 'CANCELLED' }
+            }
+        });
+        if (alreadyUsed) {
+            return next(CreateHttpError[400]('You have already used this promo code'))
+        }
+
+        if (discountRecord.code === 'FIRSTPICH30') {
+            const hasPriorBookings = await prisma.booking.findFirst({
+                where: {
+                    userId: id,
+                    bookingStatus: { not: 'CANCELLED' }
+                }
+            });
+            if (hasPriorBookings) {
+                return next(CreateHttpError[400]('This promo code is only valid for your first-time booking'))
+            }
+        }
+
+        if (discountRecord.code === 'WELCOMEBACK500') {
+            const hasPriorCompleted = await prisma.booking.findFirst({
+                where: {
+                    userId: id,
+                    bookingStatus: 'CONFIRMED'
+                }
+            });
+            if (!hasPriorCompleted) {
+                return next(CreateHttpError[400]('This promo code is only valid for returning customers'))
+            }
+        }
+
+        const originalPrice = room.nightlyRate * nightCount * roomAmount;
+        if (discountRecord.minSpend && originalPrice < discountRecord.minSpend) {
+            return next(CreateHttpError[400](`Minimum spend of ${discountRecord.minSpend} THB is required to use this promo code`))
+        }
+
+        appliedDiscountId = discountRecord.id
     }
 
-    const room = await findRoomData(roomId)
-    console.log('roomCtrl', room)
-    const priceData = priceCalculator(room, nightCount, roomAmount, promoCode)
+    const priceData = priceCalculator(room, nightCount, roomAmount, discountRecord)
     const { originalPrice,discountAmount,taxesAndFees,finalPrice } = priceData
     console.log('priceData', priceData)
     
@@ -115,6 +184,13 @@ export async function addBookingsCtrl (req,res,next) {
 
     const addBookingInfo = await addBooking(BKdata)
 
+    if (appliedDiscountId) {
+        await prisma.discount.update({
+            where: { id: appliedDiscountId },
+            data: { usedCount: { increment: 1 } }
+        });
+    }
+
     const guestListInfo = await addBookingGuest(guestList, addBookingInfo.id)
     console.log('guestListInfo', guestListInfo)
 
@@ -126,14 +202,17 @@ export async function addBookingsCtrl (req,res,next) {
 
     const paymentInfo = await addPayment(Pdata)
 
+    const rewardInfo = await saveBookingRewards(addBookingInfo.id)
+
 
     res.json({
         message: 'Add Booking Successfully',
         bookingInfo: {
             bookingDetails: addBookingInfo,
             guestList: guestListInfo,
-            paymentDetails: paymentInfo
-        }//this data is object
+            paymentDetails: paymentInfo,
+            rewardInfo: rewardInfo
+        }
     }) 
 } 
 

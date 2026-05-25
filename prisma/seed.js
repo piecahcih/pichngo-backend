@@ -1,112 +1,65 @@
 import { prisma } from '../src/lib/prisma.js'
+import { calculateAllHotelsRatings } from '../src/services/review.service.js'
 import bcrypt from 'bcrypt'
 import { hotelImg } from '../data/hotelImg.js'
 import { hotelData } from '../data/hoteldata.js'
 import { roomData } from '../data/room.js'
 import { bookingStatus } from '../src/generated/prisma/index.js'
+import { discountData } from '../data/discountData.js'
+import { reviewData } from '../data/reviewData.js'
+import { bookingData } from '../data/bookingData.js'
 
 
-const hashedPassword = ()=> bcrypt.hashSync('123456', 8)
+const hashedPassword = () => bcrypt.hashSync('123456', 8)
 
 const userData = [
-    { name: 'ADMINPeach', email: 'ADMINpeach@gmail.com', password:hashedPassword(), role:'ADMIN', 
-        profileImg:'https://i.pinimg.com/564x/2b/bc/af/2bbcaf8b5d4409e227782d4fe4484b59.jpg' },
-    { name: 'Peach', email: 'peach@gmail.com', password:hashedPassword(), role:'USER', 
-        profileImg:'https://i.pinimg.com/736x/82/b5/59/82b5591589b5b545726a31fd54728fd4.jpg'},
-    { name: 'PeachPatchara', email: 'peachpatch@gmail.com', password:hashedPassword(), role:'USER', 
-        profileImg:'https://res.cloudinary.com/piecahcih/image/upload/v1774238072/y9x0bjp2guf5q7ds8lmb.jpg'}
+    {
+        name: 'ADMINPeach', email: 'ADMINpeach@gmail.com', password: hashedPassword(), role: 'ADMIN',
+        profileImg: 'https://i.pinimg.com/564x/2b/bc/af/2bbcaf8b5d4409e227782d4fe4484b59.jpg'
+    },
+    {
+        name: 'Peach', email: 'peach@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://i.pinimg.com/736x/82/b5/59/82b5591589b5b545726a31fd54728fd4.jpg'
+    },
+    {
+        name: 'PeachPatchara', email: 'peachpatch@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://res.cloudinary.com/piecahcih/image/upload/v1774238072/y9x0bjp2guf5q7ds8lmb.jpg'
+    },
+    {
+        name: 'NamfaWarin', email: 'namfa@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://res.cloudinary.com/piecahcih/image/upload/v1777047843/Screenshot_2026-04-24_232335_faz7c3.png'
+    },
+    {
+        name: 'KaoFah', email: 'kaofah@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://res.cloudinary.com/hera/image/upload/v1776334064/luna_t3jn7k.jpg'
+    },
+    {
+        name: 'MintraPhon', email: 'mintra@gmail.com', password: hashedPassword(), role: 'USER',
+    },
+    {
+        name: 'TanyaRose', email: 'tanya@gmail.com', password: hashedPassword(), role: 'USER',
+    },
+    {
+        name: 'SuwijitK', email: 'suwijit@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://res.cloudinary.com/hera/image/upload/v1776334063/totoro_voeq5x.jpg'
+    },
+    {
+        name: 'LeoNapat', email: 'leonapat@gmail.com', password: hashedPassword(), role: 'USER',
+    },
+    {
+        name: 'ChutimaTee', email: 'chutima@gmail.com', password: hashedPassword(), role: 'USER',
+        profileImg: 'https://res.cloudinary.com/hera/image/upload/v1776334302/deena_f0wy53.jpg'
+    }
 ]
 
 const travelerData = [
-    { id: 1, firstName: 'Pichayapa', lastName: 'Thaisedhawatkul', userId: 3},
-    { id: 2, firstName: 'Peach', lastName: 'Patchara', userId: 3}
+    { id: 1, firstName: 'Pichayapa', lastName: 'Thaisedhawatkul', userId: 3 },
+    { id: 2, firstName: 'Peach', lastName: 'Patchara', userId: 3 }
 ]
 
-const discountData = [
-    {
-        id: 1,
-        code: 'FIRSTPICH30',
-        description: 'get 30% discount on your first booking' ,
-        value: 30,
-        type: 'PERCENTAGE',
-        minSpend: 5000,
-        maxDiscount: 3000
-    },
-    {
-        id: 2,
-        code: 'AMAN2026',
-        description: 'get 1000 THB discount on your booking at AMAN' ,
-        value: 1000,
-        type: 'FIXED_AMOUNT',
-        minSpend: 5000,
-        maxDiscount: 1000,
-        startDate:new Date('2026-01-01'),
-        endDate:new Date('2026-01-01'),
-        hotels: {
-            connect: [
-                { id: 1 }, 
-                { id: 32 }
-            ]
-        }
-    },
-    {
-        id: 3,
-        code: 'SONGKRAN2026',
-        description: 'get 20% discount for your songkran trip' ,
-        value: 30,
-        type: 'PERCENTAGE',
-        minSpend: 5000,
-        maxDiscount: 3000
-    },
-]
-
-const bookingData = [
-    {
-        userId: 3,
-        roomId: 2,
-        roomAmount: 1,
-        numGuest: 2,
-        checkInDate: new Date("2026-01-17"),
-        checkOutDate: new Date("2026-01-18"),
-        originalPrice: 45000,
-        discountId: 1 ,
-        discountAmount: 3000,
-        taxesAndFees: 7434,
-        finalPrice: 49434,
-        bookingStatus: 'CONFIRMED'
-    },
-    {
-        userId: 3,
-        roomId: 1,
-        roomAmount: 1,
-        numGuest: 2,
-        checkInDate: new Date("2026-05-17"),
-        checkOutDate: new Date("2026-05-18"),
-        originalPrice: 25000,
-        discountId: 2 ,
-        discountAmount: 1000,
-        taxesAndFees: 4248,
-        finalPrice: 28248
-    },
-    {
-        userId: 3,
-        roomId: 37,
-        roomAmount: 1,
-        numGuest: 2,
-        checkInDate: new Date("2026-05-17"),
-        checkOutDate: new Date("2026-05-18"),
-        originalPrice: 32000,
-        discountId: 2 ,
-        discountAmount: 1000,
-        taxesAndFees: 5487,
-        finalPrice: 36487,
-        bookingStatus: 'CANCELLED'
-    },
-
-]
 
 const guestbkData = [
-    {   
+    {
         firstName: "Pichayapa",
         lastName: "Thaisedhawatkul",
         bookingId: 1
@@ -116,7 +69,7 @@ const guestbkData = [
         lastName: "Patchara",
         bookingId: 1
     },
-    {   
+    {
         firstName: "Pichayapa",
         lastName: "Thaisedhawatkul",
         bookingId: 2
@@ -126,7 +79,7 @@ const guestbkData = [
         lastName: "Patchara",
         bookingId: 2
     },
-    {   
+    {
         firstName: "Pichayapa",
         lastName: "Thaisedhawatkul",
         bookingId: 3
@@ -163,16 +116,42 @@ const paymentData = [
 async function main() {
     console.log('Clear Data...')
 
-    const modelNames = Object.keys(prisma).filter(
-        (key) => !key.startsWith('$') && !key.startsWith('_') && key !== 'constructor'
-    )
-    await prisma.$transaction(async (tx) => {
-        await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 0;');
-        for(const name of modelNames) {
-            await tx.$executeRawUnsafe(`TRUNCATE TABLE \`${name}\`;`)
-        }
-        await tx.$executeRawUnsafe('SET FOREIGN_KEY_CHECKS = 1;');
-    })
+    const tableNames = [
+        "_DiscountToHotel",
+        "User",
+        "TravelerInfo",
+        "Hotel",
+        "HotelImg",
+        "Room",
+        "Like",
+        "Booking",
+        "BookingGuest",
+        "Discount",
+        "Payment",
+        "Reviews",
+        "Rewards"
+    ];
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            await tx.$executeRawUnsafe("SET FOREIGN_KEY_CHECKS = 0;");
+            for (const name of tableNames) {
+                try {
+                    await tx.$executeRawUnsafe(`DELETE FROM \`${name}\`;`);
+                    try {
+                        await tx.$executeRawUnsafe(`ALTER TABLE \`${name}\` AUTO_INCREMENT = 1;`);
+                    } catch (autoIncrementErr) {
+                        // Some tables may not have AUTO_INCREMENT, ignore error.
+                    }
+                } catch (err) {
+                    console.warn(`⚠️ Warning: Could not clear table ${name}:`, err.message);
+                }
+            }
+            await tx.$executeRawUnsafe("SET FOREIGN_KEY_CHECKS = 1;");
+        });
+    } catch (err) {
+        console.error("❌ Error during clear data phase:", err.message);
+    }
 
     console.log(`Start seeding...`)
     const createdUsers = await prisma.user.createMany({
@@ -199,7 +178,7 @@ async function main() {
     for (const promo of discountData) {
         const savedDiscount = await prisma.discount.create({
             data: promo
-        });   
+        });
         createdDiscounts.push(savedDiscount);
     }
     const createdBooking = await prisma.booking.createMany({
@@ -214,28 +193,30 @@ async function main() {
         data: paymentData,
         skipDuplicates: true
     })
-    // for (const hotel of hotelData) {
-    //     try {
-    //         await prisma.hotel.create({ data: hotel });
-    //     } catch (err) {
-    //         console.error(`❌ Error creating hotel ${hotel.name}:`, err.message);
-    //     }
-    // }
+    const createdReviews = await prisma.reviews.createMany({
+        data: reviewData,
+        skipDuplicates: true
+    })
+
 
     console.log(`Created : ${createdUsers.count} users`)
     console.log(`Created : ${createdTravelers.count} travelers`)
     console.log(`Created : ${createdHotels.count} hotels`)
     console.log(`Created : ${createdHotelImg.count} hotelImgs`)
     console.log(`Created : ${createdRooms.count} rooms`)
-    console.log(`Created : ${createdDiscounts.count} discounts`)
+    console.log(`Created : ${createdDiscounts.length} discounts`)
     console.log(`Created : ${createdBooking.count} bookings`)
     console.log(`Created : ${createdBookingGuest.count} booking guests`)
     console.log(`Created : ${createdPayment.count} payments`)
+    console.log(`Created : ${createdReviews.count} reviews`)
+
+    // Recalculate ratings and review counts for seeded hotels
+    await calculateAllHotelsRatings()
 }
 
-main().then( async ()=>{
+main().then(async () => {
     await prisma.$disconnect()
-}).catch( async (err)=>{
+}).catch(async (err) => {
     console.error(err)
     await prisma.$disconnect()
     process.exit(1)

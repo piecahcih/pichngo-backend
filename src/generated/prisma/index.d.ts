@@ -122,7 +122,8 @@ export type PaymenStatus = (typeof PaymenStatus)[keyof typeof PaymenStatus]
 
 export const RewardStatus: {
   PENDING: 'PENDING',
-  AVAILABLE: 'AVAILABLE'
+  AVAILABLE: 'AVAILABLE',
+  CANCELLED: 'CANCELLED'
 };
 
 export type RewardStatus = (typeof RewardStatus)[keyof typeof RewardStatus]
@@ -2156,6 +2157,7 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: number | null
+    firebase_uid: string | null
     name: string | null
     email: string | null
     password: string | null
@@ -2166,6 +2168,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: number | null
+    firebase_uid: string | null
     name: string | null
     email: string | null
     password: string | null
@@ -2176,6 +2179,7 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
+    firebase_uid: number
     name: number
     email: number
     password: number
@@ -2196,6 +2200,7 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
+    firebase_uid?: true
     name?: true
     email?: true
     password?: true
@@ -2206,6 +2211,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
+    firebase_uid?: true
     name?: true
     email?: true
     password?: true
@@ -2216,6 +2222,7 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
+    firebase_uid?: true
     name?: true
     email?: true
     password?: true
@@ -2313,6 +2320,7 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: number
+    firebase_uid: string | null
     name: string | null
     email: string
     password: string
@@ -2342,6 +2350,7 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    firebase_uid?: boolean
     name?: boolean
     email?: boolean
     password?: boolean
@@ -2360,6 +2369,7 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
+    firebase_uid?: boolean
     name?: boolean
     email?: boolean
     password?: boolean
@@ -2368,7 +2378,7 @@ export namespace Prisma {
     profileImg?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "createdAt" | "profileImg", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firebase_uid" | "name" | "email" | "password" | "role" | "createdAt" | "profileImg", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | User$bookingsArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
@@ -2389,6 +2399,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
+      firebase_uid: string | null
       name: string | null
       email: string
       password: string
@@ -2770,6 +2781,7 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'Int'>
+    readonly firebase_uid: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
@@ -8773,7 +8785,7 @@ export namespace Prisma {
     bookingDate: Date
     bookingStatus: $Enums.bookingStatus
     originalPrice: Decimal
-    discountAmount: Decimal
+    discountAmount: Decimal | null
     taxesAndFees: Decimal
     finalPrice: Decimal
     discountId: number | null
@@ -8873,7 +8885,7 @@ export namespace Prisma {
       bookingDate: Date
       bookingStatus: $Enums.bookingStatus
       originalPrice: Prisma.Decimal
-      discountAmount: Prisma.Decimal
+      discountAmount: Prisma.Decimal | null
       taxesAndFees: Prisma.Decimal
       finalPrice: Prisma.Decimal
       discountId: number | null
@@ -10718,6 +10730,7 @@ export namespace Prisma {
     id: number | null
     code: string | null
     description: string | null
+    discountImage: string | null
     value: number | null
     type: $Enums.DiscountType | null
     minSpend: number | null
@@ -10735,6 +10748,7 @@ export namespace Prisma {
     id: number | null
     code: string | null
     description: string | null
+    discountImage: string | null
     value: number | null
     type: $Enums.DiscountType | null
     minSpend: number | null
@@ -10752,6 +10766,7 @@ export namespace Prisma {
     id: number
     code: number
     description: number
+    discountImage: number
     value: number
     type: number
     minSpend: number
@@ -10789,6 +10804,7 @@ export namespace Prisma {
     id?: true
     code?: true
     description?: true
+    discountImage?: true
     value?: true
     type?: true
     minSpend?: true
@@ -10806,6 +10822,7 @@ export namespace Prisma {
     id?: true
     code?: true
     description?: true
+    discountImage?: true
     value?: true
     type?: true
     minSpend?: true
@@ -10823,6 +10840,7 @@ export namespace Prisma {
     id?: true
     code?: true
     description?: true
+    discountImage?: true
     value?: true
     type?: true
     minSpend?: true
@@ -10927,6 +10945,7 @@ export namespace Prisma {
     id: number
     code: string
     description: string
+    discountImage: string
     value: number
     type: $Enums.DiscountType
     minSpend: number | null
@@ -10963,6 +10982,7 @@ export namespace Prisma {
     id?: boolean
     code?: boolean
     description?: boolean
+    discountImage?: boolean
     value?: boolean
     type?: boolean
     minSpend?: boolean
@@ -10985,6 +11005,7 @@ export namespace Prisma {
     id?: boolean
     code?: boolean
     description?: boolean
+    discountImage?: boolean
     value?: boolean
     type?: boolean
     minSpend?: boolean
@@ -10998,7 +11019,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type DiscountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "description" | "value" | "type" | "minSpend" | "maxDiscount" | "startDate" | "endDate" | "usageLimit" | "usedCount" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["discount"]>
+  export type DiscountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "description" | "discountImage" | "value" | "type" | "minSpend" | "maxDiscount" | "startDate" | "endDate" | "usageLimit" | "usedCount" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["discount"]>
   export type DiscountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | Discount$bookingsArgs<ExtArgs>
     hotels?: boolean | Discount$hotelsArgs<ExtArgs>
@@ -11015,6 +11036,7 @@ export namespace Prisma {
       id: number
       code: string
       description: string
+      discountImage: string
       value: number
       type: $Enums.DiscountType
       minSpend: number | null
@@ -11400,6 +11422,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Discount", 'Int'>
     readonly code: FieldRef<"Discount", 'String'>
     readonly description: FieldRef<"Discount", 'String'>
+    readonly discountImage: FieldRef<"Discount", 'String'>
     readonly value: FieldRef<"Discount", 'Float'>
     readonly type: FieldRef<"Discount", 'DiscountType'>
     readonly minSpend: FieldRef<"Discount", 'Float'>
@@ -13910,25 +13933,31 @@ export namespace Prisma {
   export type RewardsMinAggregateOutputType = {
     id: number | null
     rewardPoints: number | null
+    rewardStatus: $Enums.RewardStatus | null
     userId: number | null
     bookingId: number | null
-    rewardStatus: $Enums.RewardStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardsMaxAggregateOutputType = {
     id: number | null
     rewardPoints: number | null
+    rewardStatus: $Enums.RewardStatus | null
     userId: number | null
     bookingId: number | null
-    rewardStatus: $Enums.RewardStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardsCountAggregateOutputType = {
     id: number
     rewardPoints: number
+    rewardStatus: number
     userId: number
     bookingId: number
-    rewardStatus: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -13950,25 +13979,31 @@ export namespace Prisma {
   export type RewardsMinAggregateInputType = {
     id?: true
     rewardPoints?: true
+    rewardStatus?: true
     userId?: true
     bookingId?: true
-    rewardStatus?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardsMaxAggregateInputType = {
     id?: true
     rewardPoints?: true
+    rewardStatus?: true
     userId?: true
     bookingId?: true
-    rewardStatus?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardsCountAggregateInputType = {
     id?: true
     rewardPoints?: true
+    rewardStatus?: true
     userId?: true
     bookingId?: true
-    rewardStatus?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -14061,9 +14096,11 @@ export namespace Prisma {
   export type RewardsGroupByOutputType = {
     id: number
     rewardPoints: number
+    rewardStatus: $Enums.RewardStatus
     userId: number
     bookingId: number
-    rewardStatus: $Enums.RewardStatus
+    createdAt: Date
+    updatedAt: Date
     _count: RewardsCountAggregateOutputType | null
     _avg: RewardsAvgAggregateOutputType | null
     _sum: RewardsSumAggregateOutputType | null
@@ -14088,9 +14125,11 @@ export namespace Prisma {
   export type RewardsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     rewardPoints?: boolean
+    rewardStatus?: boolean
     userId?: boolean
     bookingId?: boolean
-    rewardStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     booking?: boolean | BookingDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rewards"]>
@@ -14100,12 +14139,14 @@ export namespace Prisma {
   export type RewardsSelectScalar = {
     id?: boolean
     rewardPoints?: boolean
+    rewardStatus?: boolean
     userId?: boolean
     bookingId?: boolean
-    rewardStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type RewardsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rewardPoints" | "userId" | "bookingId" | "rewardStatus", ExtArgs["result"]["rewards"]>
+  export type RewardsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rewardPoints" | "rewardStatus" | "userId" | "bookingId" | "createdAt" | "updatedAt", ExtArgs["result"]["rewards"]>
   export type RewardsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     booking?: boolean | BookingDefaultArgs<ExtArgs>
@@ -14120,9 +14161,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       rewardPoints: number
+      rewardStatus: $Enums.RewardStatus
       userId: number
       bookingId: number
-      rewardStatus: $Enums.RewardStatus
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["rewards"]>
     composites: {}
   }
@@ -14496,9 +14539,11 @@ export namespace Prisma {
   interface RewardsFieldRefs {
     readonly id: FieldRef<"Rewards", 'Int'>
     readonly rewardPoints: FieldRef<"Rewards", 'Int'>
+    readonly rewardStatus: FieldRef<"Rewards", 'RewardStatus'>
     readonly userId: FieldRef<"Rewards", 'Int'>
     readonly bookingId: FieldRef<"Rewards", 'Int'>
-    readonly rewardStatus: FieldRef<"Rewards", 'RewardStatus'>
+    readonly createdAt: FieldRef<"Rewards", 'DateTime'>
+    readonly updatedAt: FieldRef<"Rewards", 'DateTime'>
   }
     
 
@@ -14881,6 +14926,7 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    firebase_uid: 'firebase_uid',
     name: 'name',
     email: 'email',
     password: 'password',
@@ -14993,6 +15039,7 @@ export namespace Prisma {
     id: 'id',
     code: 'code',
     description: 'description',
+    discountImage: 'discountImage',
     value: 'value',
     type: 'type',
     minSpend: 'minSpend',
@@ -15042,9 +15089,11 @@ export namespace Prisma {
   export const RewardsScalarFieldEnum: {
     id: 'id',
     rewardPoints: 'rewardPoints',
+    rewardStatus: 'rewardStatus',
     userId: 'userId',
     bookingId: 'bookingId',
-    rewardStatus: 'rewardStatus'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type RewardsScalarFieldEnum = (typeof RewardsScalarFieldEnum)[keyof typeof RewardsScalarFieldEnum]
@@ -15067,6 +15116,7 @@ export namespace Prisma {
 
 
   export const UserOrderByRelevanceFieldEnum: {
+    firebase_uid: 'firebase_uid',
     name: 'name',
     email: 'email',
     password: 'password',
@@ -15127,7 +15177,8 @@ export namespace Prisma {
 
   export const DiscountOrderByRelevanceFieldEnum: {
     code: 'code',
-    description: 'description'
+    description: 'description',
+    discountImage: 'discountImage'
   };
 
   export type DiscountOrderByRelevanceFieldEnum = (typeof DiscountOrderByRelevanceFieldEnum)[keyof typeof DiscountOrderByRelevanceFieldEnum]
@@ -15248,6 +15299,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: IntFilter<"User"> | number
+    firebase_uid?: StringNullableFilter<"User"> | string | null
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
@@ -15263,6 +15315,7 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    firebase_uid?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
@@ -15279,6 +15332,7 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    firebase_uid?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -15293,10 +15347,11 @@ export namespace Prisma {
     rewards?: RewardsListRelationFilter
     reviews?: ReviewsListRelationFilter
     travlers?: TravelerInfoListRelationFilter
-  }, "id" | "email">
+  }, "id" | "firebase_uid" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    firebase_uid?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
@@ -15315,6 +15370,7 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"User"> | number
+    firebase_uid?: StringNullableWithAggregatesFilter<"User"> | string | null
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
@@ -15708,7 +15764,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFilter<"Booking"> | Date | string
     bookingStatus?: EnumbookingStatusFilter<"Booking"> | $Enums.bookingStatus
     originalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalNullableFilter<"Booking"> | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     discountId?: IntNullableFilter<"Booking"> | number | null
@@ -15731,7 +15787,7 @@ export namespace Prisma {
     bookingDate?: SortOrder
     bookingStatus?: SortOrder
     originalPrice?: SortOrder
-    discountAmount?: SortOrder
+    discountAmount?: SortOrderInput | SortOrder
     taxesAndFees?: SortOrder
     finalPrice?: SortOrder
     discountId?: SortOrderInput | SortOrder
@@ -15757,7 +15813,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFilter<"Booking"> | Date | string
     bookingStatus?: EnumbookingStatusFilter<"Booking"> | $Enums.bookingStatus
     originalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalNullableFilter<"Booking"> | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     discountId?: IntNullableFilter<"Booking"> | number | null
@@ -15780,7 +15836,7 @@ export namespace Prisma {
     bookingDate?: SortOrder
     bookingStatus?: SortOrder
     originalPrice?: SortOrder
-    discountAmount?: SortOrder
+    discountAmount?: SortOrderInput | SortOrder
     taxesAndFees?: SortOrder
     finalPrice?: SortOrder
     discountId?: SortOrderInput | SortOrder
@@ -15805,7 +15861,7 @@ export namespace Prisma {
     bookingDate?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     bookingStatus?: EnumbookingStatusWithAggregatesFilter<"Booking"> | $Enums.bookingStatus
     originalPrice?: DecimalWithAggregatesFilter<"Booking"> | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalWithAggregatesFilter<"Booking"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalNullableWithAggregatesFilter<"Booking"> | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalWithAggregatesFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalWithAggregatesFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     discountId?: IntNullableWithAggregatesFilter<"Booking"> | number | null
@@ -15871,6 +15927,7 @@ export namespace Prisma {
     id?: IntFilter<"Discount"> | number
     code?: StringFilter<"Discount"> | string
     description?: StringFilter<"Discount"> | string
+    discountImage?: StringFilter<"Discount"> | string
     value?: FloatFilter<"Discount"> | number
     type?: EnumDiscountTypeFilter<"Discount"> | $Enums.DiscountType
     minSpend?: FloatNullableFilter<"Discount"> | number | null
@@ -15890,6 +15947,7 @@ export namespace Prisma {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
+    discountImage?: SortOrder
     value?: SortOrder
     type?: SortOrder
     minSpend?: SortOrderInput | SortOrder
@@ -15908,11 +15966,12 @@ export namespace Prisma {
 
   export type DiscountWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    code?: string
     AND?: DiscountWhereInput | DiscountWhereInput[]
     OR?: DiscountWhereInput[]
     NOT?: DiscountWhereInput | DiscountWhereInput[]
-    code?: StringFilter<"Discount"> | string
     description?: StringFilter<"Discount"> | string
+    discountImage?: StringFilter<"Discount"> | string
     value?: FloatFilter<"Discount"> | number
     type?: EnumDiscountTypeFilter<"Discount"> | $Enums.DiscountType
     minSpend?: FloatNullableFilter<"Discount"> | number | null
@@ -15926,12 +15985,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Discount"> | Date | string
     bookings?: BookingListRelationFilter
     hotels?: HotelListRelationFilter
-  }, "id">
+  }, "id" | "code">
 
   export type DiscountOrderByWithAggregationInput = {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
+    discountImage?: SortOrder
     value?: SortOrder
     type?: SortOrder
     minSpend?: SortOrderInput | SortOrder
@@ -15957,6 +16017,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Discount"> | number
     code?: StringWithAggregatesFilter<"Discount"> | string
     description?: StringWithAggregatesFilter<"Discount"> | string
+    discountImage?: StringWithAggregatesFilter<"Discount"> | string
     value?: FloatWithAggregatesFilter<"Discount"> | number
     type?: EnumDiscountTypeWithAggregatesFilter<"Discount"> | $Enums.DiscountType
     minSpend?: FloatNullableWithAggregatesFilter<"Discount"> | number | null
@@ -16138,9 +16199,11 @@ export namespace Prisma {
     NOT?: RewardsWhereInput | RewardsWhereInput[]
     id?: IntFilter<"Rewards"> | number
     rewardPoints?: IntFilter<"Rewards"> | number
+    rewardStatus?: EnumRewardStatusFilter<"Rewards"> | $Enums.RewardStatus
     userId?: IntFilter<"Rewards"> | number
     bookingId?: IntFilter<"Rewards"> | number
-    rewardStatus?: EnumRewardStatusFilter<"Rewards"> | $Enums.RewardStatus
+    createdAt?: DateTimeFilter<"Rewards"> | Date | string
+    updatedAt?: DateTimeFilter<"Rewards"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
   }
@@ -16148,32 +16211,38 @@ export namespace Prisma {
   export type RewardsOrderByWithRelationInput = {
     id?: SortOrder
     rewardPoints?: SortOrder
+    rewardStatus?: SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
-    rewardStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     booking?: BookingOrderByWithRelationInput
   }
 
   export type RewardsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    bookingId?: number
     AND?: RewardsWhereInput | RewardsWhereInput[]
     OR?: RewardsWhereInput[]
     NOT?: RewardsWhereInput | RewardsWhereInput[]
     rewardPoints?: IntFilter<"Rewards"> | number
-    userId?: IntFilter<"Rewards"> | number
-    bookingId?: IntFilter<"Rewards"> | number
     rewardStatus?: EnumRewardStatusFilter<"Rewards"> | $Enums.RewardStatus
+    userId?: IntFilter<"Rewards"> | number
+    createdAt?: DateTimeFilter<"Rewards"> | Date | string
+    updatedAt?: DateTimeFilter<"Rewards"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     booking?: XOR<BookingScalarRelationFilter, BookingWhereInput>
-  }, "id">
+  }, "id" | "bookingId">
 
   export type RewardsOrderByWithAggregationInput = {
     id?: SortOrder
     rewardPoints?: SortOrder
+    rewardStatus?: SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
-    rewardStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: RewardsCountOrderByAggregateInput
     _avg?: RewardsAvgOrderByAggregateInput
     _max?: RewardsMaxOrderByAggregateInput
@@ -16187,12 +16256,15 @@ export namespace Prisma {
     NOT?: RewardsScalarWhereWithAggregatesInput | RewardsScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Rewards"> | number
     rewardPoints?: IntWithAggregatesFilter<"Rewards"> | number
+    rewardStatus?: EnumRewardStatusWithAggregatesFilter<"Rewards"> | $Enums.RewardStatus
     userId?: IntWithAggregatesFilter<"Rewards"> | number
     bookingId?: IntWithAggregatesFilter<"Rewards"> | number
-    rewardStatus?: EnumRewardStatusWithAggregatesFilter<"Rewards"> | $Enums.RewardStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Rewards"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Rewards"> | Date | string
   }
 
   export type UserCreateInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -16208,6 +16280,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -16222,6 +16295,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16237,6 +16311,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16252,6 +16327,7 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -16261,6 +16337,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateManyMutationInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16271,6 +16348,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -16662,7 +16740,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -16684,7 +16762,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -16701,7 +16779,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -16723,7 +16801,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16743,7 +16821,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -16757,7 +16835,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }
@@ -16773,7 +16851,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -16827,6 +16905,7 @@ export namespace Prisma {
   export type DiscountCreateInput = {
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -16846,6 +16925,7 @@ export namespace Prisma {
     id?: number
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -16864,6 +16944,7 @@ export namespace Prisma {
   export type DiscountUpdateInput = {
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -16883,6 +16964,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -16902,6 +16984,7 @@ export namespace Prisma {
     id?: number
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -16918,6 +17001,7 @@ export namespace Prisma {
   export type DiscountUpdateManyMutationInput = {
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -16935,6 +17019,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -17109,6 +17194,8 @@ export namespace Prisma {
   export type RewardsCreateInput = {
     rewardPoints: number
     rewardStatus?: $Enums.RewardStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRewardsInput
     booking: BookingCreateNestedOneWithoutRewardsInput
   }
@@ -17116,14 +17203,18 @@ export namespace Prisma {
   export type RewardsUncheckedCreateInput = {
     id?: number
     rewardPoints: number
+    rewardStatus?: $Enums.RewardStatus
     userId: number
     bookingId: number
-    rewardStatus?: $Enums.RewardStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardsUpdateInput = {
     rewardPoints?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRewardsNestedInput
     booking?: BookingUpdateOneRequiredWithoutRewardsNestedInput
   }
@@ -17131,30 +17222,38 @@ export namespace Prisma {
   export type RewardsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
+    rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
     userId?: IntFieldUpdateOperationsInput | number
     bookingId?: IntFieldUpdateOperationsInput | number
-    rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardsCreateManyInput = {
     id?: number
     rewardPoints: number
+    rewardStatus?: $Enums.RewardStatus
     userId: number
     bookingId: number
-    rewardStatus?: $Enums.RewardStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardsUpdateManyMutationInput = {
     rewardPoints?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
+    rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
     userId?: IntFieldUpdateOperationsInput | number
     bookingId?: IntFieldUpdateOperationsInput | number
-    rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -17279,6 +17378,7 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    firebase_uid?: SortOrder
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
@@ -17293,6 +17393,7 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    firebase_uid?: SortOrder
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
@@ -17303,6 +17404,7 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    firebase_uid?: SortOrder
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
@@ -17804,6 +17906,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type RoomScalarRelationFilter = {
     is?: RoomWhereInput
     isNot?: RoomWhereInput
@@ -17937,6 +18050,22 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
   export type BookingScalarRelationFilter = {
     is?: BookingWhereInput
     isNot?: BookingWhereInput
@@ -18007,6 +18136,7 @@ export namespace Prisma {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
+    discountImage?: SortOrder
     value?: SortOrder
     type?: SortOrder
     minSpend?: SortOrder
@@ -18033,6 +18163,7 @@ export namespace Prisma {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
+    discountImage?: SortOrder
     value?: SortOrder
     type?: SortOrder
     minSpend?: SortOrder
@@ -18050,6 +18181,7 @@ export namespace Prisma {
     id?: SortOrder
     code?: SortOrder
     description?: SortOrder
+    discountImage?: SortOrder
     value?: SortOrder
     type?: SortOrder
     minSpend?: SortOrder
@@ -18252,9 +18384,11 @@ export namespace Prisma {
   export type RewardsCountOrderByAggregateInput = {
     id?: SortOrder
     rewardPoints?: SortOrder
+    rewardStatus?: SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
-    rewardStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardsAvgOrderByAggregateInput = {
@@ -18267,17 +18401,21 @@ export namespace Prisma {
   export type RewardsMaxOrderByAggregateInput = {
     id?: SortOrder
     rewardPoints?: SortOrder
+    rewardStatus?: SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
-    rewardStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardsMinOrderByAggregateInput = {
     id?: SortOrder
     rewardPoints?: SortOrder
+    rewardStatus?: SortOrder
     userId?: SortOrder
     bookingId?: SortOrder
-    rewardStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardsSumOrderByAggregateInput = {
@@ -18993,6 +19131,14 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
     create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
@@ -19548,6 +19694,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type NestedEnumbookingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.bookingStatus | EnumbookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.bookingStatus[]
@@ -19572,6 +19729,22 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {
@@ -19675,7 +19848,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     room: RoomCreateNestedOneWithoutBookingsInput
@@ -19695,7 +19868,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -19737,14 +19910,18 @@ export namespace Prisma {
   export type RewardsCreateWithoutUserInput = {
     rewardPoints: number
     rewardStatus?: $Enums.RewardStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     booking: BookingCreateNestedOneWithoutRewardsInput
   }
 
   export type RewardsUncheckedCreateWithoutUserInput = {
     id?: number
     rewardPoints: number
-    bookingId: number
     rewardStatus?: $Enums.RewardStatus
+    bookingId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardsCreateOrConnectWithoutUserInput = {
@@ -19837,7 +20014,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFilter<"Booking"> | Date | string
     bookingStatus?: EnumbookingStatusFilter<"Booking"> | $Enums.bookingStatus
     originalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
+    discountAmount?: DecimalNullableFilter<"Booking"> | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFilter<"Booking"> | Decimal | DecimalJsLike | number | string
     discountId?: IntNullableFilter<"Booking"> | number | null
@@ -19890,9 +20067,11 @@ export namespace Prisma {
     NOT?: RewardsScalarWhereInput | RewardsScalarWhereInput[]
     id?: IntFilter<"Rewards"> | number
     rewardPoints?: IntFilter<"Rewards"> | number
+    rewardStatus?: EnumRewardStatusFilter<"Rewards"> | $Enums.RewardStatus
     userId?: IntFilter<"Rewards"> | number
     bookingId?: IntFilter<"Rewards"> | number
-    rewardStatus?: EnumRewardStatusFilter<"Rewards"> | $Enums.RewardStatus
+    createdAt?: DateTimeFilter<"Rewards"> | Date | string
+    updatedAt?: DateTimeFilter<"Rewards"> | Date | string
   }
 
   export type ReviewsUpsertWithWhereUniqueWithoutUserInput = {
@@ -19952,6 +20131,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutTravlersInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -19966,6 +20146,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutTravlersInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -19995,6 +20176,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutTravlersInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -20009,6 +20191,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutTravlersInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -20132,6 +20315,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutHotelsInput = {
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -20150,6 +20334,7 @@ export namespace Prisma {
     id?: number
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -20283,6 +20468,7 @@ export namespace Prisma {
     id?: IntFilter<"Discount"> | number
     code?: StringFilter<"Discount"> | string
     description?: StringFilter<"Discount"> | string
+    discountImage?: StringFilter<"Discount"> | string
     value?: FloatFilter<"Discount"> | number
     type?: EnumDiscountTypeFilter<"Discount"> | $Enums.DiscountType
     minSpend?: FloatNullableFilter<"Discount"> | number | null
@@ -20433,7 +20619,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -20453,7 +20639,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -20584,6 +20770,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutLikesInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -20598,6 +20785,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutLikesInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -20671,6 +20859,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutLikesInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -20685,6 +20874,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutLikesInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -20748,6 +20938,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutBookingsInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -20762,6 +20953,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutBookingsInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -20816,6 +21008,7 @@ export namespace Prisma {
   export type DiscountCreateWithoutBookingsInput = {
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -20834,6 +21027,7 @@ export namespace Prisma {
     id?: number
     code: string
     description: string
+    discountImage: string
     value: number
     type?: $Enums.DiscountType
     minSpend?: number | null
@@ -20889,14 +21083,18 @@ export namespace Prisma {
   export type RewardsCreateWithoutBookingInput = {
     rewardPoints: number
     rewardStatus?: $Enums.RewardStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutRewardsInput
   }
 
   export type RewardsUncheckedCreateWithoutBookingInput = {
     id?: number
     rewardPoints: number
-    userId: number
     rewardStatus?: $Enums.RewardStatus
+    userId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardsCreateOrConnectWithoutBookingInput = {
@@ -20942,6 +21140,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutBookingsInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -20956,6 +21155,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -21022,6 +21222,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutBookingsInput = {
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -21040,6 +21241,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -21136,7 +21338,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -21157,7 +21359,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -21189,7 +21391,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -21210,7 +21412,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21226,7 +21428,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -21247,7 +21449,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     payment?: PaymentUncheckedCreateNestedManyWithoutBookingInput
@@ -21349,7 +21551,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -21370,7 +21572,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -21402,7 +21604,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -21423,7 +21625,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21432,6 +21634,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutReviewsInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -21446,6 +21649,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutReviewsInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -21553,6 +21757,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutReviewsInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -21567,6 +21772,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -21670,6 +21876,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutRewardsInput = {
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -21684,6 +21891,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutRewardsInput = {
     id?: number
+    firebase_uid?: string | null
     name?: string | null
     email: string
     password: string
@@ -21709,7 +21917,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     user: UserCreateNestedOneWithoutBookingsInput
@@ -21730,7 +21938,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -21755,6 +21963,7 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutRewardsInput = {
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -21769,6 +21978,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutRewardsInput = {
     id?: IntFieldUpdateOperationsInput | number
+    firebase_uid?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
@@ -21800,7 +22010,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -21821,7 +22031,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21839,7 +22049,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -21853,8 +22063,10 @@ export namespace Prisma {
   export type RewardsCreateManyUserInput = {
     id?: number
     rewardPoints: number
-    bookingId: number
     rewardStatus?: $Enums.RewardStatus
+    bookingId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ReviewsCreateManyUserInput = {
@@ -21881,7 +22093,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     room?: RoomUpdateOneRequiredWithoutBookingsNestedInput
@@ -21901,7 +22113,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21920,7 +22132,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21944,21 +22156,27 @@ export namespace Prisma {
   export type RewardsUpdateWithoutUserInput = {
     rewardPoints?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     booking?: BookingUpdateOneRequiredWithoutRewardsNestedInput
   }
 
   export type RewardsUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
-    bookingId?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    bookingId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardsUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
-    bookingId?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    bookingId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReviewsUpdateWithoutUserInput = {
@@ -22124,6 +22342,7 @@ export namespace Prisma {
   export type DiscountUpdateWithoutHotelsInput = {
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22142,6 +22361,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22160,6 +22380,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     code?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
+    discountImage?: StringFieldUpdateOperationsInput | string
     value?: FloatFieldUpdateOperationsInput | number
     type?: EnumDiscountTypeFieldUpdateOperationsInput | $Enums.DiscountType
     minSpend?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22254,7 +22475,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
     discountId?: number | null
@@ -22278,7 +22499,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -22298,7 +22519,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22317,7 +22538,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     discountId?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22367,8 +22588,10 @@ export namespace Prisma {
   export type RewardsCreateManyBookingInput = {
     id?: number
     rewardPoints: number
-    userId: number
     rewardStatus?: $Enums.RewardStatus
+    userId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BookingGuestCreateManyBookingInput = {
@@ -22415,21 +22638,27 @@ export namespace Prisma {
   export type RewardsUpdateWithoutBookingInput = {
     rewardPoints?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutRewardsNestedInput
   }
 
   export type RewardsUncheckedUpdateWithoutBookingInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardsUncheckedUpdateManyWithoutBookingInput = {
     id?: IntFieldUpdateOperationsInput | number
     rewardPoints?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     rewardStatus?: EnumRewardStatusFieldUpdateOperationsInput | $Enums.RewardStatus
+    userId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookingGuestUpdateWithoutBookingInput = {
@@ -22460,7 +22689,7 @@ export namespace Prisma {
     bookingDate?: Date | string
     bookingStatus?: $Enums.bookingStatus
     originalPrice: Decimal | DecimalJsLike | number | string
-    discountAmount: Decimal | DecimalJsLike | number | string
+    discountAmount?: Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: Decimal | DecimalJsLike | number | string
     finalPrice: Decimal | DecimalJsLike | number | string
   }
@@ -22473,7 +22702,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     user?: UserUpdateOneRequiredWithoutBookingsNestedInput
@@ -22494,7 +22723,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     payment?: PaymentUncheckedUpdateManyWithoutBookingNestedInput
@@ -22513,7 +22742,7 @@ export namespace Prisma {
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string
     bookingStatus?: EnumbookingStatusFieldUpdateOperationsInput | $Enums.bookingStatus
     originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    discountAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    discountAmount?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     taxesAndFees?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
   }

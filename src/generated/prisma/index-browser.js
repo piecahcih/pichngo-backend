@@ -122,6 +122,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  firebase_uid: 'firebase_uid',
   name: 'name',
   email: 'email',
   password: 'password',
@@ -210,6 +211,7 @@ exports.Prisma.DiscountScalarFieldEnum = {
   id: 'id',
   code: 'code',
   description: 'description',
+  discountImage: 'discountImage',
   value: 'value',
   type: 'type',
   minSpend: 'minSpend',
@@ -250,9 +252,11 @@ exports.Prisma.ReviewsScalarFieldEnum = {
 exports.Prisma.RewardsScalarFieldEnum = {
   id: 'id',
   rewardPoints: 'rewardPoints',
+  rewardStatus: 'rewardStatus',
   userId: 'userId',
   bookingId: 'bookingId',
-  rewardStatus: 'rewardStatus'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -266,6 +270,7 @@ exports.Prisma.NullsOrder = {
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  firebase_uid: 'firebase_uid',
   name: 'name',
   email: 'email',
   password: 'password',
@@ -308,7 +313,8 @@ exports.Prisma.BookingGuestOrderByRelevanceFieldEnum = {
 
 exports.Prisma.DiscountOrderByRelevanceFieldEnum = {
   code: 'code',
-  description: 'description'
+  description: 'description',
+  discountImage: 'discountImage'
 };
 
 exports.Prisma.PaymentOrderByRelevanceFieldEnum = {
@@ -351,7 +357,8 @@ exports.PaymenStatus = exports.$Enums.PaymenStatus = {
 
 exports.RewardStatus = exports.$Enums.RewardStatus = {
   PENDING: 'PENDING',
-  AVAILABLE: 'AVAILABLE'
+  AVAILABLE: 'AVAILABLE',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {

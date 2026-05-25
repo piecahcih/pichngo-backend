@@ -1,9 +1,38 @@
 import CreateHttpError from 'http-errors';
-import { createUser, getUserBy } from "../services/user.service.js"
+import { createUser, getUserBy, syncUserToDb } from "../services/user.service.js"
 import { loginSchema, registerSchema } from "../validations/schema.js"
 import { signToken } from '../utils/jwt.js';
 import bcrypt from 'bcrypt';
 import { email } from 'zod';
+import admin from '../utils/firebase.js';
+
+
+export async function registerOrLoginWithGoogleCtrl(req,res,next){
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const idToken = authHeader.split(' ')[1]
+  
+  if(!idToken){
+    return next(CreateHttpError[409]('No token provided'))
+  }
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken)
+    const { uid, email, name, picture } = decodedToken
+
+    const user = await syncUserToDb(uid, email, name, picture)
+    const token = signToken({ id: user.id })
+
+    res.json({
+        message: 'Success',
+        token: token,
+        user: user
+    })
+
+  } catch (error) {
+    next(CreateHttpError[403]('Invalid or expired token'))
+  }
+}
+
 
 export async function registerCtrl(req,res,next) {
     const {email, password, confirmPassword} = req.body 

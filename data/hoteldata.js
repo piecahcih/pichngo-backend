@@ -629,7 +629,7 @@ export const hotelData = [
         longitude: 98.8375,
     },
     {
-        name: 'Phulay Bay, a Ritz-Carlton Reserve',
+        name: 'Phulay Bay, a RitzCarlton Reserve',
         hotelImgId: 48,
         hotelDetails: 'The world’s first Ritz-Carlton Reserve, offering a highly personalized "butler-led" experience and stunning Arabesque architecture.',
         address: '111 Moo 3, T. Nongthalay, Klong Muang, 81000',

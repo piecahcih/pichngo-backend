@@ -25,7 +25,9 @@ export const getHotelsByNameCtrl = async (req,res,next) => {
     const paramsName = req.params.hotelname
     const name = paramsName.replaceAll('-', ' ')
 
-    const foundHotel = await getHotelsByName(name)
+    const { checkin, checkout } = req.query
+
+    const foundHotel = await getHotelsByName(name, checkin, checkout)
     if(!foundHotel) {
         return next (CreateHttpError[404]('There\'s no hotels in this name'))
     }

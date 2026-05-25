@@ -7,12 +7,17 @@ import accRoute from './routes/account.route.js'
 import hotelRoute from './routes/hotel.route.js'
 import likeRoute from './routes/like.route.js'
 import bookRoute from './routes/book.route.js'
+import discountRoute from './routes/discount.route.js'
+import reviewRoute from './routes/review.route.js'
+import rewardRoute from './routes/reward.route.js'
+import aiRoute from './routes/ai.route.js'
+import paymentRoute from './routes/payment.route.js'
 
 const app = express()
 app.use(express.json())
 const allowedOrigins = [
-    process.env.CORS_ORIGIN, // This will be your main https://pich-and-go.vercel.app
-    "http://localhost:5173"  // Local development
+    process.env.CORS_ORIGIN, 
+    "http://localhost:5173"  
 ];
 
 app.use(cors({
@@ -40,11 +45,16 @@ app.use(cors({
 //     credentials: true
 // }))
 
-app.use('/auth',authRoute)
-app.use('/account',accRoute)
-app.use('/like',likeRoute)
-app.use('/hotels',hotelRoute)
-app.use('/book',bookRoute)
+app.use('/auth', authRoute)
+app.use('/account', accRoute)
+app.use('/like', likeRoute)
+app.use('/hotels', hotelRoute)
+app.use('/book', bookRoute)
+app.use('/discount', discountRoute)
+app.use('/review', reviewRoute)
+app.use('/reward',rewardRoute)
+app.use('/ai',aiRoute)
+app.use('/payment',paymentRoute)
 
 app.use(notFoundMDW)
 app.use(errHdlrMDW)

@@ -3,9 +3,9 @@ import { getAllHotelsByCityCtrl, getHotelsByNameCtrl, getAllHotelsCtrl, getHotel
 
 const hotelRoute = express.Router()
 
-hotelRoute.get('/',getAllHotelsCtrl)
-hotelRoute.get('/counts',getHotelCountsByCityCtrl)
-hotelRoute.get('/:city',getAllHotelsByCityCtrl)
-hotelRoute.get('/:city/:hotelname',getHotelsByNameCtrl)
+hotelRoute.get('/', getAllHotelsCtrl)
+hotelRoute.get('/counts', getHotelCountsByCityCtrl)
+hotelRoute.get('/:city', getAllHotelsByCityCtrl)
+hotelRoute.get('/:city/:hotelname', getHotelsByNameCtrl)
 
 export default hotelRoute

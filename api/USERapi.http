@@ -196,3 +196,12 @@ Authorization: Bearer {{token}}
     }
 }
 
+
+
+
+
+
+
+
+### GET specific booking id from this user
+POST {{baseURL}}/ai
