@@ -19,9 +19,9 @@ const adapter = new PrismaMariaDb({
     password: decodeURIComponent(databaseUrl.password),
     database: databaseUrl.pathname.slice(1),
     connectionLimit: 5,
-    ssl: {
-        rejectUnauthorized: true
-    }
+    // ssl: {
+    //     rejectUnauthorized: true
+    // }
 })
 
 const prisma = new PrismaClient({ adapter });

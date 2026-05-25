@@ -25,7 +25,11 @@ export const chatWithAi =  async (req,res) => {
     "aiMessage": "Your elegant and concise response to the user here.",
     "hotel": {
         "name": "Full Hotel Name",
-        "hotelImg": [ "img1": "image URL" ],
+        "hotelImg": [
+            {
+                "img1": "image URL"
+            }
+        ],
         "city": "City",
         "address": "Full Address",
         "details": "A single short luxury highlight of this property",
