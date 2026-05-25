@@ -148,6 +148,9 @@ async function main() {
                 }
             }
             await tx.$executeRawUnsafe("SET FOREIGN_KEY_CHECKS = 1;");
+        }, {
+            maxWait: 15000,
+            timeout: 45000  
         });
     } catch (err) {
         console.error("❌ Error during clear data phase:", err.message);
