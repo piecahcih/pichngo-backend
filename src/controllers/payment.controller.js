@@ -4,12 +4,12 @@ import priceCalculator from '../utils/priceCalculator.js';
 import stripe from '../configs/stripe.js';
 import { differenceInDays } from 'date-fns';
 
-export const createPaymentIntentCtrl = async (req,res,next) => {
+export const createPaymentIntentCtrl = async (req, res, next) => {
     const { id } = req.result
     const { roomId, checkInDate, checkOutDate, roomAmount, promoCode } = req.body
-    
+
     const room = await findRoomData(Number(roomId))
-    console.log('room', room)
+    // console.log('room', room)
 
     const checkin = new Date(checkInDate)
     const checkout = new Date(checkOutDate)

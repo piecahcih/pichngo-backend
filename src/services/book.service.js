@@ -38,6 +38,10 @@ export async function checkRoomAvailability(roomId, checkInDateNum, checkOutDate
                 }
             }
         })
+
+        const bookedAmount = room.bookings.reduce((sum, booking) => sum + booking.roomAmount, 0)
+        return bookedAmount + requestedAmount > room.roomAmount
+        
     } catch (error) {
         console.log('error in checkRoomAvailability', error)
         throw error
